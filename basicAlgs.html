@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<head>
+	<script type="text/javascript">
+
+	/* #2. Reverse a String.
+	Reverse the provided string.You may need to turn the string into an array before you can reverse it.Your result must be a string.*/
+	function reverseStr(str) {
+		return str.split("").reverse().join("");
+	}
+
+	/* #3. Factorialze a Number.
+	Return the factorial of the provided integer. If the integer is represented with the letter n, a factorial is the product of all positive integers less than or equal to n.
+	Factorials are often represented with the shorthand notation n!
+	For example: 5! = 1 * 2 * 3 * 4 * 5 = 120f*/
+	function factorialize(n) {
+		var sum = 1;
+		for(var i = 1; i <= n; i++) {
+			sum *= i;
+		}
+		return sum;
+	}
+
+	/* #4. Check for Palindromes.
+	Return true if the given string is a palindrome. Otherwise, return false. A palindrome is a word or sentence that's spelled the same way both forward and backward, ignoring punctuation, case, and spacing. You'll need to remove punctuation and turn everything lower case in order to check for palindromes.*/
+	function palindrome(str) {
+		str = str.replace(/[^a-z]/gi, "").toLowerCase();
+		return str === str.split("").reverse().join("");
+	}
+
+	/* #5. Find the Longest Word in a String.
+	Return the length of the longest word in the provided sentence.
+	Your response should be a number.*/
+	function findLongestWord(str) {
+		return str.split(" ").sort(function(a,b) {
+			return b.length > a.length;
+		})[0].length;
+		
+	}
+
+	/* #6. Tiltle Case a Sentence
+	Return the provided string with the first letter of each word capitalized. For the purpose of this exercise, you should also capitalize connecting words like 'the' and 'of'.*/
+	function titleCase(str) {
+		return str.split(" ").map(function(a) {
+			return a.substring(0,1).toUpperCase() + a.substring(1).toLowerCase()
+		}).join(" ");
+	}
+
+	/* #7. Return Largest Numbers in Arrays.
+	Return an array consisting of the largest number from each provided sub-array. For simplicity, the provided array will contain exactly 4 sub-arrays.*/
+	function largestOfFour(arr) {
+		var temp = [];
+		//loop through arr
+		for(var i = 0; i < arr.length; i++)	 {
+			//push largest value of each array to temp by sorting arr[i] in descending order
+			temp.push(arr[i].sort(function(a,b) {return b-a})[0]);
+		}
+		return temp;
+	}
+
+	//Same function using loops instead of sort. Probably better optimized.
+	function largestOfFour2(arr) {
+		var temp = [], v;
+		//loop through arr
+		for(var i = 0; i < arr.length; i++)	 {
+			//set v eqaul to first value in arr[i]
+			v = arr[i][0];
+			//loop through all value's in arr[i]
+			for(var j = 0; j < arr[i].length; j++) {
+				//if current value is greater then v set v to current value
+				if(arr[i][j] > v)
+					v = arr[i][j];
+			}
+			//push v to temp
+			temp.push(v);
+		}
+		return temp;
+	}
+
+	/* #8. Confirm the Ending.
+	Check if a string (first argument) ends with the given target string (second argument).
+	Remember to use Read-Search-Ask if you get stuck. Write your own code.*/
+	function end(str, target) {
+		var l = target.length;
+		return str.substring(str.length-l) === target;
+	}
+
+	/* #9. Repeat the String Repeat the String.
+	Repeat a given string (first argument) n times (second argument). Return an empty string if n is a negative number.*/
+	function repeat(str, num) {
+		var temp = '', counter = 1;
+		if(num < 0) {
+			return "";
+		}
+		while(counter <= num) {
+			temp += str;
+			counter++
+		}
+		return temp;
+	}
+
+	//same function using recursion...just because
+	function repeat2(str, num) {
+		if(num < 0) 
+			return "";
+		else if(num === 1)
+			return str;
+		else return str += repeat2(str, num-1);
+	}
+
+	/* #10. Truncate a string.
+	Truncate a string (first argument) if it is longer than the given maximum string length (second argument). Return the truncated string with a '...' ending. Note that the three dots at the end add to the string length.*/
+	function truncate(str, num) {
+		//if str length is less than num return full string.
+		if(str.length <= num)
+			return str;
+		//slice off any characters after length. Add 1 to include a space after last full word
+		str = str.slice(0, num+1);
+		//return the string ending at the last full word
+		return str.substring(0, str.lastIndexOf(" ")) + "...";
+	}
+
+	/* #11. Chuncky Monkey.
+	Write a function that splits an array (first argument) into groups the length of size (second argument) and returns them as a multidimensional array.*/
+	function chunk(arr, size) {
+		var finalArr = [], num = 0;
+		//loop through array
+		for(var i = 0; i < arr.length; i+= size) {
+			//push the items that fall within size to finalArr
+			//first time will start at index 0, next will start after last index pushed
+			finalArr.push(arr.slice(num, num+size))
+			//increase num by size for next slice
+			num += size;
+		}
+		return finalArr;
+	}
+
+	/* #12. Slasher Flick
+	Return the remaining elements of an array after chopping off n elements from the head*/
+	function slasher(arr, howMany) {
+		return arr.slice(howMany);
+	}
+
+	/* #13. Mutations
+	Return true if the string in the first element of the array contains all of the letters of the string in the second element of the array. For example, ['hello', 'Hello'], should return true because all of the letters in the second string are present in the first, ignoring case. The arguments ['hello', 'hey'] should return false because the string 'hello' does not contain a 'y'. Lastly, ['Alien', 'line'], should return true because all of the letters in 'line' are present in 'Alien'*/
+
+	//first way using a loop
+	function mutation(arr) {
+		arr[0] = arr[0].toLowerCase();
+		arr[1] = arr[1].toLowerCase();
+		for(var i = 0; i < arr[1].length; i++) {
+			if(arr[0].indexOf(arr[1][i]) === -1)
+				return false;
+		}
+		return true;
+	}
+	//second way using the Array method every
+	function mutation2(arr) {
+		return arr[1].toLowerCase().split('').every(function(v) {
+			return arr[0].toLowerCase().indexOf(v) !== -1;
+		});
+	}
+
+	/* #14. Falsey Bouncer
+	Remove all falsey values from an array.Falsey values in javascript are false, null, 0, "", undefined, and NaN.*/
+	function bouncer(arr) {
+		return arr.filter(function(v) {
+			if(v) return v;
+		})
+	}
+	
+	/* #15. Where Art Thou.
+	Make a function that looks through an array (first argument) and returns an array of all objects that have equivalent property and value pair (second argument).
+	For example, if the first argument is [{ first: 'Romeo', last: 'Montague' }, { first: 'Mercutio', last: null }, { first: 'Tybalt', last: 'Capulet' }], and the second argument is { last: 'Capulet' }, then you must return the the third object from the array (the first argument), because it contains the property and it's value, that was passed on as the second argument.*/
+	function whereArtThou(collection, source) {
+		var arr = [], testVal;
+		//get value of source keys
+		for(var k in source) {
+			//set testVal equal to source key value
+			testVal = source[k];
+			console.log(testVal);
+		}
+		//loop through collection
+		for(var i = 0; i < collection.length; i++) {
+			//if collection[i] has same key and value as source
+			if(collection[i][k] === testVal) {
+				//push it to arr
+				arr.push(collection[i]);
+			}
+		}
+		return arr;
+	}
+
+	/* #15. Seek and Destroy
+	You will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.*/
+	function destroyer(arr) {
+		//put the arguments into an array using the Array.slice method
+		var args = Array.prototype.slice.call(arguments,1);
+		//filter out any values that are found in the args array
+		return arr.filter(function(v){
+			return args.indexOf(v) === -1;
+		});
+	}
+
+	/*16. Where do I belong
+	Return the lowest index at which a value (second argument) should be inserted into a sorted array (first argument). For example, where([1,2,3,4], 1.5) should return 1 because it is greater than 1 (0th index), but less than 2 (1st index). */
+	function whereDoIBelong(arr, num) {
+		//sort function in ascending order
+		arr = arr.sort(function(a,b) {return a-b;});
+		//if first value is greater than or equal to num return first index (0)
+		if(arr[0] >= num) {
+			return 0;
+		} 
+		//if last value is less than num return the length of the array
+		else if(arr[arr.length-1] < num) {
+				return arr.length;
+		} 
+		//else compare values in array to num
+		else {
+			for(var i = 0; i < arr.length; i++) {
+				//if num is between the two values return the index + 1
+				if(arr[i] < num && (arr[i+1] > num || arr[i+1] === num)) {
+				return i+1;
+				}
+			}
+		}
+	}
+
+
+
+	</script>
+</head>
+</html>
